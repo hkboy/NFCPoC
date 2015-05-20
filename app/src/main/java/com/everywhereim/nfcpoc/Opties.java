@@ -36,10 +36,10 @@ public class Opties extends Activity implements OnClickListener {
 
         patientView = new TextView(this);
         patientView = (TextView) findViewById(R.id.patientView);
-        patientView.setText("Huidig: " + patientNumberString);
+        patientView.setText("Huidig patientsunmmer: " + patientNumberString);
         dokterView = new TextView(this);
         dokterView = (TextView) findViewById(R.id.dokterView);
-        dokterView.setText("Huidig: " + dokterNumberString);
+        dokterView.setText("Huidig doktersnummer: " + dokterNumberString);
     }
 
     //method that handles what happens if you click the save button

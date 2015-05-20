@@ -34,7 +34,7 @@ public class MedReg {
     SharedPreferences app_preferences;
     List<NameValuePair> nameValuePairs;
     CheckBox check;
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); //The format SQL accepts
     Date date = new Date();
     String datum = sdf.format(date);
 
@@ -49,7 +49,7 @@ public class MedReg {
                 nameValuePairs.add(new BasicNameValuePair("dokterid", String.valueOf(MainActivity.dokterNumber)));
                 nameValuePairs.add(new BasicNameValuePair("patientid", String.valueOf(MainActivity.patientNumber)));
                 nameValuePairs.add(new BasicNameValuePair("dagmaand", datum));
-                Log.e("Datum:", datum);
+//                Log.e("Datum:", datum);
                 nameValuePairs.add(new BasicNameValuePair("Ingenomen", "1"));
 
                 try {
@@ -62,7 +62,7 @@ public class MedReg {
                     Log.d("debug", "ENDED TRY");
                     MainActivity.mgtSuccess = true;
                 } catch (Exception e) {
-                    Log.e("Nuh", "NOPE");
+                    Log.e("debug", "NOT SENT TO DATABASE");
                     e.printStackTrace();
                 }
 

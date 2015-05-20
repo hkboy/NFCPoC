@@ -21,7 +21,6 @@ public class ApiConnector {
         // URL for getting all customers
 
 
-        //String url = "http://rieke.lt/s/medGet.php";
         String url = "http://rieke.lt/s/medGet.php";
 
         // Get HttpResponse Object from url.

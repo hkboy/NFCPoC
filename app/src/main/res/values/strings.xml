@@ -6,4 +6,7 @@
     <string name="explanation">Houd NFC tag tegen lezer!</string>
     <string name="opties">Opties</string>
     <string name="confirmed">U heeft bevestigd het medicijn ingenomen te hebben</string>
+    <string name="NFCBegin">Houd NFC sticker tegen uw telefoon</string>
+    <string name="NFCuit">Uw NFC staat uit. Zet deze aan via het instellingenscherm van uw telefoon.</string>
+    <string name="noNFCSupport">Uw telefoon ondersteunt geen NFC. U kunt deze dus helaas niet gebruiken.</string>
 </resources>

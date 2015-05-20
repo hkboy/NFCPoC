@@ -2,10 +2,13 @@ package com.everywhereim.nfcpoc;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentFilter.MalformedMimeTypeException;
+import android.content.SharedPreferences;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -55,9 +58,9 @@ public class MainActivity extends Activity implements OnClickListener {
     public static Button butIngenomen;
     public static int patientNumber;
     public static int dokterNumber;
+    final String PREFS_NAME = "MyPrefsFile";
     public static boolean mgtSuccess;
     MedReg mgt = new MedReg();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,16 +83,16 @@ public class MainActivity extends Activity implements OnClickListener {
 
         if (mNfcAdapter == null) {
             // Stop here, we definitely need NFC
-            Toast.makeText(this, "This device doesn't support NFC.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.noNFCSupport, Toast.LENGTH_LONG).show();
             finish();
             return;
 
         }
 
-        if (!mNfcAdapter.isEnabled()) {
-            mTextView.setText("NFC is disabled.");
+        if (!mNfcAdapter.isEnabled()) { //Checkt of NFC uitstaat
+            mTextView.setText(R.string.NFCuit);
         } else {
-            mTextView.setText(R.string.explanation);
+            mTextView.setText(R.string.NFCBegin);
         }
 
         handleIntent(getIntent());
@@ -112,7 +115,7 @@ public class MainActivity extends Activity implements OnClickListener {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-
+//If pressed on the settings button
         switch (id) {
             case R.id.action_settings: {
                 startActivity(new Intent(this, Opties.class));
@@ -135,6 +138,7 @@ public class MainActivity extends Activity implements OnClickListener {
             //Do Nothing
         }
         JSONObject json = null;
+        //Grabs data from Json database, put the correct data in strings and write to screen
         try {
             json = jsonArray.getJSONObject(nummer);
             naam = json.getString("naam");
@@ -143,11 +147,14 @@ public class MainActivity extends Activity implements OnClickListener {
             beschrijving = json.getString("beschrijving");
             mTextView.setText(beschrijving);
 
+            //Listens to a name provided from the database and grab the appropriate photo
             fotoNaam = json.getString("foto");
             int resID = getResources().getIdentifier(fotoNaam, "drawable", getPackageName());
             fotoView.setImageResource(resID);
-            mgtSuccess = false;
+
+            mgtSuccess = false;  //Resets after a new scan
             if (nummer == 0) {
+                //If there is an invalid sticker, you can't submit the data
                 butIngenomen.setEnabled(false);
             } else {
                 butIngenomen.setEnabled(true);
@@ -256,9 +263,9 @@ public class MainActivity extends Activity implements OnClickListener {
     @SuppressLint("ClickableViewAccessibility")
 //    @Override
     public void onClick(View v) {
-        if ((R.id.buttonIngenomen == v.getId())) {
+        if ((R.id.buttonIngenomen == v.getId())) { //If the button is pressed
             if (patientNumber<=0 || dokterNumber <=0) {
-                //Doe deze dingen
+                //Shows an error if there is no patientsnumber or doctorsnumber inserted.
                 Toast.makeText(this, "U moet nog uw patientsnummer invoeren.", Toast.LENGTH_LONG).show();
             }
             else {
@@ -268,7 +275,7 @@ public class MainActivity extends Activity implements OnClickListener {
                 }
                 catch (Exception e) {}     // this never happen... nobody check for it
 
-                if (mgtSuccess) {
+                if (mgtSuccess) { //If the SQL statement was valid
                     Toast.makeText(this, getString(R.string.confirmed), Toast.LENGTH_LONG).show();
                     fotoView.setImageResource(R.drawable.confirmed);
                 }
@@ -319,7 +326,7 @@ public class MainActivity extends Activity implements OnClickListener {
             byte[] payload = record.getPayload();
 
             // Get the Text Encoding
-            String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16";
+            String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16"; //Don't pay attention to this, it just works ¯\_(?)_/¯
 
             // Get the Language Code
             int languageCodeLength = payload[0] & 0063;
@@ -335,8 +342,10 @@ public class MainActivity extends Activity implements OnClickListener {
         protected void onPostExecute(String result) { //JSONArray jsonArray
             if (result != null) {
                 onSticker = result;
+                //If the sticker is invalid, it returns to this one and shows a pre-determined error message
                 medTitel.setText("1");
 
+                //Shows this after a scan. This is a safe-guard for when there is no internet connection. Is only visible for <.5 seconds
                 new GetAllMedsTask().execute(new ApiConnector());
                 medTitel.setText("Er is iets foutgegaan");
                 mTextView.setText("Als u dit scherm langer dan enkele seconden ziet, kan het zijn dat uw internet-verbinding is weggevallen. Verbindt uw telefoon met het internet en probeer het opnieuw");
