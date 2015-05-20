@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <EditText
+        android:hint="Vul hier uw patientnummer in"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="140dp"
+        android:maxLines="1"
+        android:inputType="number"
+        android:digits="-0123456789qwertzuiopasdfghjklyxcvbnmQWERTZUIOPASDFGHJKLYXCVBNM."
+        android:id="@+id/nameField" />
+
+    <EditText
+        android:hint="Vul hier het doktersID in"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="180dp"
+        android:maxLines="1"
+        android:inputType="number"
+        android:digits="-0123456789qwertzuiopasdfghjklyxcvbnmQWERTZUIOPASDFGHJKLYXCVBNM."
+        android:id="@+id/dokterField" />
+
+    <TextView
+        android:id="@+id/patientView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/buttonSave"
+        android:layout_marginRight="27dp"
+        android:layout_marginTop="82dp"
+        android:text="PATIENT" />
+
+    <TextView
+        android:id="@+id/dokterView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/buttonSave"
+        android:layout_marginRight="27dp"
+        android:layout_marginTop="102dp"
+        android:text="DOKTER" />
+
+    <Button
+        android:id="@+id/buttonSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="230dp"
+        android:text="Opslaan" />
+</RelativeLayout>
