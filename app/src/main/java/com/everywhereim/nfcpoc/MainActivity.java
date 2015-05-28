@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentFilter.MalformedMimeTypeException;
@@ -46,7 +47,9 @@ public class MainActivity extends Activity implements OnClickListener {
     public static final String MIME_TEXT_PLAIN = "text/plain";
     public static final String TAG = "NfcDemo";
 
+
     private TextView mTextView;
+    public Context context = this;
     private TextView medTitel;
     private NfcAdapter mNfcAdapter;
     private String onSticker;
@@ -55,10 +58,10 @@ public class MainActivity extends Activity implements OnClickListener {
     public static String beschrijving;
     public static String fotoNaam;
     public static ImageView fotoView;
+    public static String FILENAME = "patient";
     public static Button butIngenomen;
     public static int patientNumber;
     public static int dokterNumber;
-    final String PREFS_NAME = "MyPrefsFile";
     public static boolean mgtSuccess;
     MedReg mgt = new MedReg();
 
@@ -118,6 +121,7 @@ public class MainActivity extends Activity implements OnClickListener {
 //If pressed on the settings button
         switch (id) {
             case R.id.action_settings: {
+                getPatData();
                 startActivity(new Intent(this, Opties.class));
                 return true;
 
@@ -126,6 +130,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
     return super.onOptionsItemSelected(item);
     }
+
 
 
 
@@ -151,6 +156,7 @@ public class MainActivity extends Activity implements OnClickListener {
             fotoNaam = json.getString("foto");
             int resID = getResources().getIdentifier(fotoNaam, "drawable", getPackageName());
             fotoView.setImageResource(resID);
+            getPatData();
 
             mgtSuccess = false;  //Resets after a new scan
             if (nummer == 0) {
@@ -264,12 +270,13 @@ public class MainActivity extends Activity implements OnClickListener {
 //    @Override
     public void onClick(View v) {
         if ((R.id.buttonIngenomen == v.getId())) { //If the button is pressed
+            getPatData();
             if (patientNumber<=0 || dokterNumber <=0) {
                 //Shows an error if there is no patientsnumber or doctorsnumber inserted.
                 Toast.makeText(this, "U moet nog uw patientsnummer invoeren.", Toast.LENGTH_LONG).show();
             }
             else {
-                mgt.submitMed();
+                mgt.submitMed(this);
                 try {
                     Thread.sleep(1000L);    // one second
                 }
@@ -283,7 +290,15 @@ public class MainActivity extends Activity implements OnClickListener {
             }
         }
     }
-
+    public void getPatData() {
+        SharedPreferences prefs = getSharedPreferences(MainActivity.FILENAME, 4);
+//        int restoredText = prefs.getInt("text", 0);
+            patientNumber = prefs.getInt("Patient", 2);
+            dokterNumber = prefs.getInt("Dokter", 2);
+//        Opties.patientView.setText("Huidig patientnummer: " + patientNumber);
+//        Opties.dokterView.setText("Huidig dokternummer: " + dokterNumber);
+           // Toast.makeText(getApplicationContext(), "Opgehaaldinate", Toast.LENGTH_SHORT).show();
+    }
     private class NdefReaderTask extends AsyncTask<Tag, Void, String> {
 
         @Override
@@ -355,6 +370,8 @@ public class MainActivity extends Activity implements OnClickListener {
 
             }
         }
+
+
 
 
 

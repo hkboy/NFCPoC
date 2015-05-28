@@ -1,5 +1,6 @@
 package com.everywhereim.nfcpoc;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.CheckBox;
@@ -23,6 +24,8 @@ import java.util.List;
 /**
  * Created by Riekelt on 19-5-2015.
  */
+
+
 public class MedReg {
 
     byte[] data;
@@ -34,16 +37,17 @@ public class MedReg {
     SharedPreferences app_preferences;
     List<NameValuePair> nameValuePairs;
     CheckBox check;
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); //The format SQL accepts
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss"); //The format SQL accepts
     Date date = new Date();
     String datum = sdf.format(date);
 
-    public void submitMed() {
+    public void submitMed(Context context) {
 
         new Thread(new Runnable() {
             public void run() {
 
                 ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+
 
                 nameValuePairs.add(new BasicNameValuePair("medicijnid", String.valueOf(MainActivity.medicijnID)));
                 nameValuePairs.add(new BasicNameValuePair("dokterid", String.valueOf(MainActivity.dokterNumber)));

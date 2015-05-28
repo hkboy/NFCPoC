@@ -1,46 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <EditText
-        android:hint="Vul hier uw patientnummer in"
-        android:layout_width="fill_parent"
+
+    <TextView
+        android:id="@+id/patientHelp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="140dp"
-        android:maxLines="1"
-        android:inputType="number"
-        android:digits="-0123456789qwertzuiopasdfghjklyxcvbnmQWERTZUIOPASDFGHJKLYXCVBNM."
-        android:id="@+id/nameField" />
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/buttonSave"
+        android:layout_marginRight="27dp"
+        android:layout_marginTop="160dp"
+        android:text="Patient" />
 
     <EditText
-        android:hint="Vul hier het doktersID in"
+        android:hint="Patientsnummer"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="180dp"
         android:maxLines="1"
         android:inputType="number"
-        android:digits="-0123456789qwertzuiopasdfghjklyxcvbnmQWERTZUIOPASDFGHJKLYXCVBNM."
-        android:id="@+id/dokterField" />
+        android:digits="-0123456789."
+        android:id="@+id/nameField"
+        android:layout_toEndOf="@+id/buttonSave"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/doctorHelp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/buttonSave"
+        android:layout_marginRight="27dp"
+        android:layout_marginTop="240dp"
+        android:text="Dokter" />
+
+    <EditText
+        android:hint="Doktersnummer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="260dp"
+        android:maxLines="1"
+        android:inputType="number"
+        android:digits="-0123456789"
+        android:id="@+id/dokterField"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/patientView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/buttonSave"
-        android:layout_marginRight="27dp"
         android:layout_marginTop="82dp"
-        android:text="PATIENT" />
+        android:text="PATIENT"
+        android:layout_alignRight="@+id/buttonSave"
+        android:layout_alignEnd="@+id/buttonSave" />
 
     <TextView
         android:id="@+id/dokterView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/buttonSave"
-        android:layout_marginRight="27dp"
         android:layout_marginTop="102dp"
-        android:text="DOKTER" />
+        android:text="DOKTER"
+        android:layout_alignRight="@+id/patientView"
+        android:layout_alignEnd="@+id/patientView" />
 
     <Button
         android:id="@+id/buttonSave"
@@ -48,6 +75,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="230dp"
+        android:layout_marginBottom="200dp"
         android:text="Opslaan" />
+
+
 </RelativeLayout>
