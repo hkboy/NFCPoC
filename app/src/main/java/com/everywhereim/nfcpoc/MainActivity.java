@@ -270,7 +270,7 @@ public class MainActivity extends Activity implements OnClickListener {
 //    @Override
     public void onClick(View v) {
         if ((R.id.buttonIngenomen == v.getId())) { //If the button is pressed
-            getPatData();
+//            getPatData();
             if (patientNumber<=0 || dokterNumber <=0) {
                 //Shows an error if there is no patientsnumber or doctorsnumber inserted.
                 Toast.makeText(this, "U moet nog uw patientsnummer invoeren.", Toast.LENGTH_LONG).show();
@@ -293,11 +293,13 @@ public class MainActivity extends Activity implements OnClickListener {
     public void getPatData() {
         SharedPreferences prefs = getSharedPreferences(MainActivity.FILENAME, 4);
 //        int restoredText = prefs.getInt("text", 0);
-            patientNumber = prefs.getInt("Patient", 2);
-            dokterNumber = prefs.getInt("Dokter", 2);
+            patientNumber = prefs.getInt("Patient", 0);
+            Opties.patientNumberInt = prefs.getInt("Patient", 0);
+            dokterNumber = prefs.getInt("Dokter", 0);
+            Opties.dokterNumberInt = prefs.getInt("Dokter", 0);
 //        Opties.patientView.setText("Huidig patientnummer: " + patientNumber);
 //        Opties.dokterView.setText("Huidig dokternummer: " + dokterNumber);
-           // Toast.makeText(getApplicationContext(), "Opgehaaldinate", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Opgehaaldinate", Toast.LENGTH_SHORT).show();
     }
     private class NdefReaderTask extends AsyncTask<Tag, Void, String> {
 

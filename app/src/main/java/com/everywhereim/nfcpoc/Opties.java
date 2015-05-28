@@ -39,10 +39,10 @@ public class Opties extends Activity implements OnClickListener {
 
         patientView = new TextView(this);
         patientView = (TextView) findViewById(R.id.patientView);
-        patientView.setText("Huidig patientsunmmer: " + MainActivity.patientNumber);
+        patientView.setText("Huidig patientsunmmer: " + patientNumberInt);
         dokterView = new TextView(this);
         dokterView = (TextView) findViewById(R.id.dokterView);
-        dokterView.setText("Huidig doktersnummer: " + MainActivity.dokterNumber);
+        dokterView.setText("Huidig doktersnummer: " + dokterNumberInt);
 
         if (patientNumberInt == 0) {
             patientView.setText(" Nog geen patientnummer");

@@ -48,14 +48,12 @@ public class MedReg {
 
                 ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 
-
                 nameValuePairs.add(new BasicNameValuePair("medicijnid", String.valueOf(MainActivity.medicijnID)));
                 nameValuePairs.add(new BasicNameValuePair("dokterid", String.valueOf(MainActivity.dokterNumber)));
                 nameValuePairs.add(new BasicNameValuePair("patientid", String.valueOf(MainActivity.patientNumber)));
                 nameValuePairs.add(new BasicNameValuePair("dagmaand", datum));
 //                Log.e("Datum:", datum);
                 nameValuePairs.add(new BasicNameValuePair("Ingenomen", "1"));
-
                 try {
                     HttpClient httpClient = new DefaultHttpClient();
                     HttpPost httpPost = new HttpPost("http://rieke.lt/s/sqlInsert.php");
@@ -63,16 +61,15 @@ public class MedReg {
                     HttpResponse response = httpClient.execute(httpPost);
                     HttpEntity entity = response.getEntity();
                     //is = entity.getContent();
-                    Log.d("debug", "ENDED TRY");
                     MainActivity.mgtSuccess = true;
                 } catch (Exception e) {
                     Log.e("debug", "NOT SENT TO DATABASE");
                     e.printStackTrace();
                 }
-
             }
 
         }).start();
+
     }
 
 }
