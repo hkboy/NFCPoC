@@ -299,7 +299,7 @@ public class MainActivity extends Activity implements OnClickListener {
             Opties.dokterNumberInt = prefs.getInt("Dokter", 0);
 //        Opties.patientView.setText("Huidig patientnummer: " + patientNumber);
 //        Opties.dokterView.setText("Huidig dokternummer: " + dokterNumber);
-            Toast.makeText(getApplicationContext(), "Opgehaaldinate", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), "Opgehaaldinate", Toast.LENGTH_SHORT).show();
     }
     private class NdefReaderTask extends AsyncTask<Tag, Void, String> {
 

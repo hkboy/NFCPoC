@@ -56,7 +56,7 @@ public class MedReg {
                 nameValuePairs.add(new BasicNameValuePair("Ingenomen", "1"));
                 try {
                     HttpClient httpClient = new DefaultHttpClient();
-                    HttpPost httpPost = new HttpPost("http://rieke.lt/s/sqlInsert.php");
+                    HttpPost httpPost = new HttpPost("http://rieke.lt/e/NFCPoC/sqlInsert.php");
                     httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                     HttpResponse response = httpClient.execute(httpPost);
                     HttpEntity entity = response.getEntity();
