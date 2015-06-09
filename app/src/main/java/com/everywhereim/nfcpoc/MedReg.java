@@ -37,9 +37,12 @@ public class MedReg {
     SharedPreferences app_preferences;
     List<NameValuePair> nameValuePairs;
     CheckBox check;
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss"); //The format SQL accepts
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); //The format SQL accepts
+    SimpleDateFormat stf = new SimpleDateFormat("HH:mm:ss"); //The format SQL accepts
     Date date = new Date();
+    Date timo = new Date();
     String datum = sdf.format(date);
+    String tijd = stf.format(timo);
 
     public void submitMed(Context context) {
 
@@ -52,6 +55,7 @@ public class MedReg {
                 nameValuePairs.add(new BasicNameValuePair("dokterid", String.valueOf(MainActivity.dokterNumber)));
                 nameValuePairs.add(new BasicNameValuePair("patientid", String.valueOf(MainActivity.patientNumber)));
                 nameValuePairs.add(new BasicNameValuePair("dagmaand", datum));
+                nameValuePairs.add(new BasicNameValuePair("tijd", tijd));
 //                Log.e("Datum:", datum);
                 nameValuePairs.add(new BasicNameValuePair("Ingenomen", "1"));
                 try {
@@ -62,6 +66,7 @@ public class MedReg {
                     HttpEntity entity = response.getEntity();
                     //is = entity.getContent();
                     MainActivity.mgtSuccess = true;
+                    Log.e("Tijd", tijd);
                 } catch (Exception e) {
                     Log.e("debug", "NOT SENT TO DATABASE");
                     e.printStackTrace();
