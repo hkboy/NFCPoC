@@ -2,14 +2,13 @@ package com.everywhereim.nfcpoc;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentFilter.MalformedMimeTypeException;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -17,6 +16,7 @@ import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Debug;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
@@ -28,6 +28,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
+
+import com.koushikdutta.ion.Ion;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,7 +50,7 @@ public class MainActivity extends Activity implements OnClickListener {
     public static final String TAG = "NfcDemo";
 
 
-    private TextView mTextView;
+    private TextView medBeschrijving;
     public Context context = this;
     private TextView medTitel;
     private NfcAdapter mNfcAdapter;
@@ -57,6 +59,8 @@ public class MainActivity extends Activity implements OnClickListener {
     public static String naam;
     public static String beschrijving;
     public static String fotoNaam;
+    public final String fotoBaseURL = "http://rieke.lt/e/NFCPoC/fotos/";
+    public String fotoURL;
     public static ImageView fotoView;
     public static String FILENAME = "patient";
     public static Button butIngenomen;
@@ -71,13 +75,13 @@ public class MainActivity extends Activity implements OnClickListener {
 //        setHasOptionsMenu(true);
         setContentView(R.layout.activity_main);
         //Declarables
-        mTextView = (TextView) findViewById(R.id.textView_explanation);
+        medBeschrijving = (TextView) findViewById(R.id.textView_explanation);
         medTitel = (TextView) findViewById(R.id.textView_confirmation);
         fotoView = (ImageView) findViewById(R.id.fotoView);
         butIngenomen = (Button) findViewById(R.id.buttonIngenomen);
         butIngenomen.setOnClickListener(this);
         butIngenomen.setEnabled(false);
-        mTextView.setMovementMethod(new ScrollingMovementMethod());
+        medBeschrijving.setMovementMethod(new ScrollingMovementMethod());
 
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -93,9 +97,9 @@ public class MainActivity extends Activity implements OnClickListener {
         }
 
         if (!mNfcAdapter.isEnabled()) { //Checkt of NFC uitstaat
-            mTextView.setText(R.string.NFCuit);
+            medBeschrijving.setText(R.string.NFCuit);
         } else {
-            mTextView.setText(R.string.NFCBegin);
+            medBeschrijving.setText(R.string.NFCBegin);
         }
 
         handleIntent(getIntent());
@@ -150,12 +154,27 @@ public class MainActivity extends Activity implements OnClickListener {
             medicijnID = Integer.valueOf(json.getString("id"));
             medTitel.setText(naam);
             beschrijving = json.getString("beschrijving");
-            mTextView.setText(beschrijving);
+            medBeschrijving.setText(beschrijving);
 
             //Listens to a name provided from the database and grab the appropriate photo
-            fotoNaam = json.getString("foto");
-            int resID = getResources().getIdentifier(fotoNaam, "drawable", getPackageName());
-            fotoView.setImageResource(resID);
+//            fotoNaam = json.getString("foto");
+//            int resID = getResources().getIdentifier(fotoNaam, "drawable", getPackageName());
+//            fotoView.setImageResource(resID);
+
+            fotoURL = fotoBaseURL;
+            fotoURL+= json.getString("foto") + ".png";
+            Log.e("Opgehaalde foto", fotoURL);
+
+            try {
+                Ion.with(fotoView)
+                        .placeholder(R.drawable.zandloper)
+                        .error(R.drawable.foutjekopie)
+                        .animateLoad(R.drawable.spinanimation)
+                        .animateIn(R.drawable.fadeinanimation)
+                        .load(fotoURL);
+        }catch (Resources.NotFoundException e){
+            e.printStackTrace();
+        }
             getPatData();
 
             mgtSuccess = false;  //Resets after a new scan
@@ -235,6 +254,9 @@ public class MainActivity extends Activity implements OnClickListener {
             }
         }
     }
+
+
+
 
     /**
      * @param activity The corresponding {@link Activity} requesting the foreground dispatch.
@@ -365,7 +387,7 @@ public class MainActivity extends Activity implements OnClickListener {
                 //Shows this after a scan. This is a safe-guard for when there is no internet connection. Is only visible for <.5 seconds
                 new GetAllMedsTask().execute(new ApiConnector());
                 medTitel.setText("Er is iets foutgegaan");
-                mTextView.setText("Als u dit scherm langer dan enkele seconden ziet, kan het zijn dat uw internet-verbinding is weggevallen. Verbindt uw telefoon met het internet en probeer het opnieuw");
+                medBeschrijving.setText("Als u dit scherm langer dan enkele seconden ziet, kan het zijn dat uw internet-verbinding is weggevallen. Verbindt uw telefoon met het internet en probeer het opnieuw");
                 fotoView.setImageDrawable(null);
                 butIngenomen.setEnabled(false);
                 }
