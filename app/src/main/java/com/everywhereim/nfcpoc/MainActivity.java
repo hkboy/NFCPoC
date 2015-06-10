@@ -58,7 +58,7 @@ public class MainActivity extends Activity implements OnClickListener {
     public static int medicijnID;
     public static String naam;
     public static String beschrijving;
-    public static String fotoNaam;
+//    public static String fotoNaam;
     public final String fotoBaseURL = "http://rieke.lt/e/NFCPoC/fotos/";
     public String fotoURL;
     public static ImageView fotoView;
@@ -96,7 +96,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
         }
 
-        if (!mNfcAdapter.isEnabled()) { //Checkt of NFC uitstaat
+        if (!mNfcAdapter.isEnabled()) { //If the adapter is present but not enabled.
             medBeschrijving.setText(R.string.NFCuit);
         } else {
             medBeschrijving.setText(R.string.NFCBegin);
